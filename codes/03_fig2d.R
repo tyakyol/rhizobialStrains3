@@ -15,7 +15,7 @@ growth = read.delim('results/competitiveness/table1.csv', sep = ',', row.names =
 growth = growth[, -1]
 rm(counts)
 
-# Competitiveness (Niwa et al 2018) =============
+# Niche breadth (Niwa et al 2018) ===============
 commonness = function(arr) {
   a = (arr / sum(arr))^2
   a = 1/sum(a)
@@ -26,7 +26,7 @@ cmm = apply(dfRA, 1, commonness)
 growth = growth[names(cmm),]
 growth$commonness = cmm
 
-# Plot
+# Plot ==========================================
 c1 = c(colors_$laci, colors_$yellow, colors_$turk, colors_$lightpurple)
 c2 = c(colors_$coffee, colors_$lightgreen, colors_$anotherred, colors_$white)
 

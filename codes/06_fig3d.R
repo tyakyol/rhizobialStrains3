@@ -1,18 +1,15 @@
-library(magrittr)
-library(dplyr)
 library(vegan)
 library(ggplot2)
-library(seqtime)
 library(DOC)
 
+source('codes/__rarefy__.R')
+
 # Load the data =================================
-counts = readRDS('data/counts.rds')
 isoInfo = read.csv('results/competitiveness/table1.csv', row.names = 1)
 
 # Prepare the data for DOC analysis =============
 isoToKeep = row.names(isoInfo)[isoInfo$class == 'Dominants']
 df = readRDS('data/newData/adjustedPlantCounts.rds')
-st = counts$samples
 df = df[isoToKeep, ]
 df = rarefyFilter(df, min = 1000)$rar
 dfRA = vegan::decostand(df, method = 'total', MARGIN = 2)

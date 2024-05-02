@@ -18,7 +18,7 @@ isoInfo = read.csv('results/competitiveness/table1.csv', row.names = 1)
 grm = read.delim('results/grm.csv', sep = ',')
 rm(counts)
 
-# Relative abundance as int in 10e5 =============
+# Presence-absence data =========================
 isoToKeep = row.names(isoInfo)[isoInfo$class == 'Dominants']
 dfRA = readRDS('data/newData/adjustedPlantCounts.rds')
 dfRA = dfRA[isoToKeep, ]
@@ -35,7 +35,6 @@ funcForTab = function(i, n) {
   i2 = as.integer(dfRA[n,])
   
   t1 = table(i1, i2)
-  # a1 =  (t1[2,1] - t1[1,2]) / ((t1[2,2])^2)
   a1 =  (t1[2,1] - t1[1,2]) / ((t1[2,2]))
   return(a1)
 }
@@ -58,7 +57,6 @@ for(isol in row.names(dfRA)) {
 # Convert to data.frame
 df = data.frame(num = unlist(outForComp),
                 bac = rep(names(outForComp), each = 85))
-# df = df[!df$num %in% c(-Inf, Inf),]
 
 net = df
 net$to = strsplit(row.names(net), split = '\\.') %>% sapply(function(x) x[[2]])
@@ -87,7 +85,7 @@ qplot(df2$weight, geom = 'blank') +
         axis.text = element_text(size = 14),
         axis.title = element_text(size = 18), 
         legend.text = element_text(size = 12))
-ggsave('results/extendedFig3b.pdf', height = 5, width = 7)
+ggsave('results/05_extendedFig3b.pdf', height = 5, width = 7)
 
 
 # Only strong and positive interactions 
@@ -99,7 +97,6 @@ gr = graph_from_data_frame(d = df3, vertices = row.names(dfRA), directed = FALSE
 # Number of connections
 d1 = degree(gr, mode = 'out')
 d2 = degree(gr, mode = 'in')
-
 
 # Colors
 c1 = isoInfo[names(d1), 'soil']
