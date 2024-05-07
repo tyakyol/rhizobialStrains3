@@ -1,8 +1,13 @@
+# This code doesn't perform any analysis, it only generates the data for GWAS and RF.
+# For Specialists.
+
 library(caret)
 library(dplyr)
 
+# Numbers for random seeds
 set.seed(32); numbers = sample(x = 1:100000, size = 1000, replace = FALSE)
 
+# Generate partitions
 partition = function(s) {
   set.seed(s)
   inTrain = createDataPartition(y = 1:212, p = 0.8, list = FALSE)
@@ -14,11 +19,13 @@ for(n in 1:1000) {
   parts[[n]] = partition(numbers[n])
 }
 
+# Abundance data
 pheno = read.delim('results/cumulativeAbundance.csv', sep = ',')
 pheno = pheno[, c('Line1', 'raS')]
 pheno = pheno %>% group_by(Line1) %>% summarise(Specialists = mean(raS))
 pheno$Specialists = round(pheno$Specialists, 6)
 
+# To GWAS format
 template = read.delim('data/templateForGWAS.csv', sep = ',')
 class(pheno) = class(pheno)[3]
 row.names(pheno) = pheno$Line1
@@ -27,6 +34,7 @@ row.names(pheno) = NULL
 colnames(pheno)[1] = 'Taxa'
 write.csv(pheno, 'results/specialistsForGWAS_CRA.csv')
 
+# Write out the data tables
 writer = function(x, i) {
   df = x[i, ]
   write.table(df,
@@ -35,6 +43,7 @@ writer = function(x, i) {
               row.names = FALSE, col.names = TRUE)
 }
 
+# Only first 100
 for(n in 1:100) {
   writer(pheno, parts[[n]])
 }

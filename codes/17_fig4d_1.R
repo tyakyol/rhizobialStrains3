@@ -12,7 +12,6 @@ library(caret)
 # Load the data =================================
 counts = readRDS('data/counts.rds')
 st = counts$samples
-# pgR = counts$samples
 isoInfo = read.csv('results/competitiveness/table1.csv', row.names = 1)
 grm = read.delim('results/grm.csv', sep = ',')
 rm(counts)
@@ -36,14 +35,12 @@ eveG = sheldon(t(GG))
 eveD = sheldon(t(DD))
 eveS = sheldon(t(SS))
 
-
 # Alpha diversity
 alpG = vegan::diversity(t(GG), index = 'shannon')
 alpD = vegan::diversity(t(DD), index = 'shannon')
 alpS = vegan::diversity(t(SS), index = 'shannon')
 
-
-# MDS ===========================================
+# MDS
 mdsG = as.data.frame(cmdscale(vegdist(t(GG), method = 'bray'), k = 4))
 mdsD = as.data.frame(cmdscale(vegdist(t(DD), method = 'bray'), k = 4))
 mdsS = as.data.frame(cmdscale(vegdist(t(SS), method = 'bray'), k = 4))
@@ -59,7 +56,7 @@ modB = as.data.frame(model.matrix(~mergD$Batch)[,-1])
 mergD = cbind(mergD, modB)
 mergD = mergD[, c(-1, -3, -4, -2)]
 
-# ranger with top 5 =============================
+# Random forests ================================
 xg1 = function(seed) {
   set.seed(seed)
   
@@ -92,5 +89,6 @@ for(i in 1:100) {
   res1__[i] = R2(res1[[3]], res1[[4]][,'Biomass'])
 } 
 
+# Write the results
 saveRDS(res1_,  'results/growthPredictionWithDiversity/abundance1.rds')
 saveRDS(res1__, 'results/growthPredictionWithDiversity/abundance2.rds')

@@ -3,6 +3,7 @@ library(agricolae)
 
 source('codes/__colors__.R')
 
+# Loading the results
 dom = read.delim('results/genomicPredictionForAbundance/dominantScores.txt', header = F)
 gen = read.delim('results/genomicPredictionForAbundance/generalistScores.txt', header = F)
 spe = read.delim('results/genomicPredictionForAbundance/specialistScores.txt', header = F)
@@ -11,6 +12,7 @@ dom2 = read.delim('results/genomicPredictionForAbundance/random/dominantScores.t
 gen2 = read.delim('results/genomicPredictionForAbundance/random/generalistScores.txt', header = F)
 spe2 = read.delim('results/genomicPredictionForAbundance/random/specialistScores.txt', header = F)
 
+# Comparison
 summary(dom$V1)
 summary(gen$V1)
 summary(spe$V1)
@@ -20,7 +22,10 @@ f = rep(c('Dominants', 'Generalists', 'Specialists'), each = 100)
 
 HSD.test(lm(x ~ f), console = TRUE, trt = 'f')
 
-df = data.frame(Score = c(x, dom2$V1, gen2$V1, spe2$V1), Isolate = c(f, f), Marker = as.character(rep(1:2, each = 300)))
+# Plot
+df = data.frame(Score = c(x, dom2$V1, gen2$V1, spe2$V1), 
+                Isolate = c(f, f), 
+                Marker = as.character(rep(1:2, each = 300)))
 
 c2 = c(colors_$laci, colors_$yellow, colors_$turk)
 

@@ -31,6 +31,7 @@ class(pheno) = class(pheno)[3]
 row.names(pheno) = pheno$Line1
 pheno = pheno[template$Taxa,]
 row.names(pheno) = NULL
+colnames(pheno)[1] = 'Taxa'
 write.csv(pheno, 'results/generalistsForGWAS.csv')
 
 # Write the data tables out

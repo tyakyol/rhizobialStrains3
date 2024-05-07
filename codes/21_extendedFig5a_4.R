@@ -16,7 +16,6 @@ ggplot(df, aes(x = term, y = estimate,
                ymin = ymin, ymax = ymax)) +
   geom_linerange(size = 3.5, aes(color = term)) + 
   geom_point(size = 8.5, aes(color = term)) + 
-  # geom_text(aes(label = sign), nudge_x = -0.055, nudge_y = 0.068, size = 13) +
   coord_flip() + 
   ylab('Effect on plant growth') + 
   xlab('') +

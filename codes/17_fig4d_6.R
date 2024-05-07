@@ -12,7 +12,6 @@ library(caret)
 # Load the data =================================
 counts = readRDS('data/counts.rds')
 st = counts$samples
-# pgR = counts$samples
 isoInfo = read.csv('results/competitiveness/table1.csv', row.names = 1)
 grm = read.delim('results/grm.csv', sep = ',')
 rm(counts)
@@ -26,7 +25,7 @@ GG = dfRA[row.names(isoInfo)[isoInfo$class == 'Generalists'], ]
 DD = dfRA[row.names(isoInfo)[isoInfo$class == 'Dominants'], ]
 SS = dfRA[row.names(isoInfo)[isoInfo$class == 'Specialists'], ]
 
-# MDS ===========================================
+# MDS
 mdsG = as.data.frame(round(cmdscale(vegdist(t(GG), method = 'bray'), k = 4), 3))
 mdsD = as.data.frame(round(cmdscale(vegdist(t(DD), method = 'bray'), k = 4), 3))
 mdsS = as.data.frame(round(cmdscale(vegdist(t(SS), method = 'bray'), k = 4), 3))
@@ -41,7 +40,7 @@ modB = as.data.frame(model.matrix(~mergD$Batch)[,-1])
 mergD = cbind(mergD, modB)
 mergD = mergD[, c(-1, -3, -4, -2)]
 
-# ranger with top 5 =============================
+# Random forests ================================
 xg1 = function(seed) {
   set.seed(seed)
   
@@ -74,6 +73,6 @@ for(i in 1:100) {
   res1__[i] = R2(res1[[3]], res1[[4]][,'Biomass'])
 } 
 
-
+# Write the results
 saveRDS(res1_,  'results/growthPredictionWithDiversity/betaDiversity1.rds')
 saveRDS(res1__, 'results/growthPredictionWithDiversity/betaDiversity2.rds')
