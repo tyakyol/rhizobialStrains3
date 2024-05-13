@@ -49,3 +49,4 @@ po/*~
 rsconnect/
 data/snps.csv
 results/*.pdf
+.DS_Store
