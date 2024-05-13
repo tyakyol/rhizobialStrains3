@@ -42,4 +42,4 @@ xg1 = function(seed) {
 }
 
 res1 = varImp(xg1(99429))[["importance"]]
-write.csv(res1, file ='results/dominants99429FeatureImportance.csv')
+write.csv(res1, file ='results/dominants99429FeatureImportanceShannon.csv')
