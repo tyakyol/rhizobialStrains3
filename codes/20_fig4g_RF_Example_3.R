@@ -12,7 +12,7 @@ pheno[,'Dominants'] = log2(pheno[,'Dominants'] + 1e-6)
 res = read.delim('results/gwas99429DominantsShannon.csv', sep = ',')
 res = res[order(res[,'P.value']),]
 res[, 'Label'] = paste(res[, 'Chr'], res[, 'Pos'], sep = '__')
-snps = read.delim('data/snps.csv', sep = ',', header = TRUE)
+snps = read.delim(unz('data/snps.csv.zip', 'snps.csv'), sep = ',', header = T)
 snps[, 'Label'] = paste(snps[, 'CHR'], snps[, 'POS'], sep = '__')
 row.names(snps) = snps[, 'Label']
 set.seed(sss); snps2 = snps[res[, 'Label'][sample(201:nrow(res), size = 200)],]

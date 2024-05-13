@@ -5,7 +5,7 @@ source('codes/__gapitFunctions__.R')
 p1 = 'results/dominants99429CRA.csv'
 myY = read.delim(p1, header = TRUE, sep = ',')
 colnames(myY)[1] = 'Taxa'
-myGD = read.delim('data/snps.csv', sep = ',', header = TRUE)
+myGD = read.delim(unz('data/snps.csv.zip', 'snps.csv'), sep = ',', header = T)
 myGM = read.delim('data/ProFaba_chrAll_qual20_depth3_2snp_miss50_maf0.01_imputed_GM.csv', sep = ',', header = TRUE)
 
 dir.create('dominants99429.csv')

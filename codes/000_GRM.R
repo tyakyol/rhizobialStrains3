@@ -6,7 +6,7 @@ library(pheatmap)
 library(RColorBrewer)
 
 # Loading the data ==============================
-geno = read.table('data/snps.csv', sep=',', header = TRUE)
+geno = read.delim(unz('data/snps.csv.zip', 'snps.csv'), sep = ',', header = T)
 geno = geno[, c(-1, -2)]
 geno = geno[ , order(colnames(geno))]
 genoT = t(geno)
